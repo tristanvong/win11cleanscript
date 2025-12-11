@@ -1,0 +1,20 @@
+{
+    "Settings": {
+        "LogPath": "TODO: find a way to put it in window's temp folder",
+        "DryRun": true,
+        "Verbose": true,
+        "Strict": false
+    },
+    "Whitelists": {
+        "KeepApps": [
+            "Microsoft.WindowsCalculator",
+            "Microsoft.WindowsStore"
+        ]
+    },
+    "Blacklists": {
+        "RemoveApps": [
+            "Microsoft.BingNews",
+            "Microsoft.GetHelp"
+        ]
+    }
+}
