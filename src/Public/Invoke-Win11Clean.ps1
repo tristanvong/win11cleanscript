@@ -33,6 +33,16 @@ function Invoke-Win11Clean {
         }
         
         Write-Host "Detection Complete. Found $($InstalledApps.Count) applications." -ForegroundColor Green
+
+        Write-Verbose "Checking which Apps to Remove..."
+        $TargetedApps = Select-W11AppsToRemove -InstalledApps $InstalledApps -Config $Config
+        
+        if ($TargetedApps.Count -eq 0) {
+            Write-Host "No applications matched your removal list." -ForegroundColor Green
+        } else {
+            Write-Host "Found $($TargetedApps.Count) applications to remove:" -ForegroundColor Magenta
+            $TargetedApps | Format-Table Name, Id, Type -AutoSize
+        }
     }
     catch {
         Write-Error "Failure: Error during execution. Details: $_"
