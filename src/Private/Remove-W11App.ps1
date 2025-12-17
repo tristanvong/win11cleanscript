@@ -10,8 +10,13 @@ function Remove-W11App {
         [PSCustomObject]$App,
 
         [Parameter(Mandatory = $true)]
-        [bool]$DryRun
+        [bool]$DryRun,
+        
+        [Parameter(Mandatory = $false)]
+        [string]$LogPath
     )
+
+    Write-Log -Message "Processing removal for: $($App.Name)" -Path $LogPath
 
     Write-Host "Processing removal for: $($App.Name)" -NoNewline
 
@@ -20,10 +25,12 @@ function Remove-W11App {
         
         if ($DryRun) {
             Write-Host "DryRun: Would prompt user for confirmation here." -ForegroundColor Yellow
+            Write-Log -Message "DRYRUN: $($App.Name) is critical." -Path $LogPath -Level "WARN"
         } else {
             $Confirmation = Read-Host "WARNING: This app is marked as Critical. Type 'Y' to confirm deletion"
             if ($Confirmation -ne 'Y') {
                 Write-Host "SKIPPED: User declined." -ForegroundColor Gray
+                Write-Log -Message "SKIP: User declined removal of $($App.Name)." -Path $LogPath -Level "WARN"
                 return
             }
         }
@@ -32,6 +39,7 @@ function Remove-W11App {
     if ($DryRun) {
         Write-Host " [DRY RUN - NO ACTION TAKEN]" -ForegroundColor Yellow
         Write-Verbose "DryRun: Would have executed removal command for $($App.Type) package."
+        Write-Log -Message "DRYRUN: Would remove $($App.Name)" -Path $LogPath
         return
     }
 
@@ -53,8 +61,10 @@ function Remove-W11App {
         }
         
         Write-Host "SUCCESS: $($App.Name) removed." -ForegroundColor Green
+        Write-Log -Message "SUCCESS: Removed $($App.Name)" -Path $LogPath
     }
     catch {
         Write-Error "FAILED to remove $($App.Name). Error: $_"
+        Write-Log -Message "ERROR: Failed to remove $($App.Name). Details: $_" -Path $LogPath -Level "ERROR"
     }
 }

@@ -23,6 +23,9 @@ function Invoke-Win11Clean {
     
     try {
         $Config = Import-W11Config -Path $ConfigPath
+        $LogPath = $Config.Settings.LogPath
+
+        Write-Log -Message "--- Win11Clean Started ---" -Path $LogPath
         Write-Verbose "SUCCESS: Configuration loaded!"
         
         Write-Verbose "Detecting Installed Software..."
@@ -38,29 +41,35 @@ function Invoke-Win11Clean {
         }
         
         Write-Host "Detection Complete. Found $($InstalledApps.Count) applications." -ForegroundColor Green
+        Write-Log -Message "Detection Complete. Found $($InstalledApps.Count) apps." -Path $LogPath
 
         Write-Verbose "Checking which Apps to Remove..."
         $TargetedApps = Select-W11AppsToRemove -InstalledApps $InstalledApps -Config $Config
         
         if ($TargetedApps.Count -eq 0) {
             Write-Host "No applications matched your removal list." -ForegroundColor Green
+            Write-Log -Message "No apps matched removal list." -Path $LogPath
         } else {
             Write-Host "Found $($TargetedApps.Count) applications to remove:" -ForegroundColor Magenta
             $TargetedApps | Format-Table Name, Id, Type -AutoSize
+            Write-Log -Message "Found $($TargetedApps.Count) apps to remove." -Path $LogPath
 
             if (-not $Config.Settings.DryRun) {
                 Write-Host "WARNING: DryRun is FALSE. Starting actual removal in 10 seconds..." -ForegroundColor Red
+                Write-Log -Message "DryRun is FALSE. Starting removal..." -Path $LogPath -Level "WARN"
                 Start-Sleep -Seconds 10
             } else {
                 Write-Host "NOTICE: DryRun is TRUE. No changes will be made." -ForegroundColor Yellow
+                Write-Log -Message "DryRun is TRUE." -Path $LogPath
             }
 
             foreach ($App in $TargetedApps) {
-                Remove-W11App -App $App -DryRun $Config.Settings.DryRun
+                Remove-W11App -App $App -DryRun $Config.Settings.DryRun -LogPath $LogPath
             }
         }
     }
     catch {
         Write-Error "Failure: Error during execution. Details: $_"
+        if ($LogPath) { Write-Log -Message "Failure: $_" -Path $LogPath -Level "ERROR" }
     }
 }
