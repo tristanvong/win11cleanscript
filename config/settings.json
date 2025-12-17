@@ -16,5 +16,12 @@
             "Microsoft.BingNews",
             "Microsoft.GetHelp"
         ]
+    },
+    "Safeguards": {
+        "CriticalApps": [
+            "Microsoft.WindowsStore",
+            "Microsoft.DesktopAppInstaller",
+            "Microsoft.WindowsTerminal"
+        ]
     }
 }

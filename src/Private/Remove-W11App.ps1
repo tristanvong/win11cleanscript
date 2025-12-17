@@ -2,7 +2,7 @@ function Remove-W11App {
     <#
     .SYNOPSIS
         Removes a single application (AppX or WinGet).
-        Respects the DryRun flag to prevent actual deletion during testing.
+        Respects DryRun and Critical flags.
     #>
     [CmdletBinding()]
     param (
@@ -13,7 +13,21 @@ function Remove-W11App {
         [bool]$DryRun
     )
 
-    Write-Host "Processing removal for: $($App.Name) ($($App.Id))" -NoNewline
+    Write-Host "Processing removal for: $($App.Name)" -NoNewline
+
+    if ($App.IsCritical) {
+        Write-Host " [CRITICAL APP DETECTED]" -ForegroundColor Magenta
+        
+        if ($DryRun) {
+            Write-Host "DryRun: Would prompt user for confirmation here." -ForegroundColor Yellow
+        } else {
+            $Confirmation = Read-Host "WARNING: This app is marked as Critical. Type 'Y' to confirm deletion"
+            if ($Confirmation -ne 'Y') {
+                Write-Host "SKIPPED: User declined." -ForegroundColor Gray
+                return
+            }
+        }
+    }
 
     if ($DryRun) {
         Write-Host " [DRY RUN - NO ACTION TAKEN]" -ForegroundColor Yellow
