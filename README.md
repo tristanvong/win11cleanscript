@@ -1,5 +1,5 @@
-# win11cleanscript
-Win11Clean is a professional, modular PowerShell automation tool designed to help users remove default Windows 11 applications and bloatware. It provides a structured, safe, and transparent way to manage system cleanliness by combining detection from both Microsoft Store (AppX) and WinGet package managers.
+# Win11Cleaner
+Win11Cleaner is a professional, modular PowerShell automation tool designed to help users remove default Windows 11 applications and bloatware. It provides a structured, safe, and transparent way to manage system cleanliness by combining detection from both Microsoft Store (AppX) and WinGet package managers.
 
 # How to use
 ## Prerequisites
