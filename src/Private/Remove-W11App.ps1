@@ -1,8 +1,23 @@
 function Remove-W11App {
     <#
     .SYNOPSIS
-        Removes a single application (AppX or WinGet).
-        Respects DryRun and Critical flags.
+        Executes the uninstallation of a specific package.
+
+    .DESCRIPTION
+        Handles the actual removal of a package using the appropriate provider:
+        - AppX: Uses 'Remove-AppxPackage'.
+        - WinGet: Uses 'winget uninstall' with silent and auto-agreement flags.
+        
+        The function includes logic to handle 'IsCritical' apps by pausing for user input ('Y' to confirm) and respects the 'DryRun' global setting to prevent actual system changes during testing.
+
+    .PARAMETER App
+        The specific application object to be processed.
+
+    .PARAMETER DryRun
+        If $true, the function logs and prints intent but does not run uninstallation commands.
+
+    .PARAMETER LogPath
+        The file path where the results of the operation (Success/Fail) are recorded.
     #>
     [CmdletBinding()]
     param (

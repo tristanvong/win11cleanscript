@@ -1,7 +1,16 @@
 function Write-Log {
     <#
     .SYNOPSIS
-        Appends a message to a log file with a timestamp.
+        Standardized logging utility.
+
+    .DESCRIPTION
+        Writes a single line to the specified log file in the format:
+        [YYYY-MM-DD HH:MM:SS] [LEVEL] Message
+        
+        It validates the 'Level' parameter against a set list (INFO, WARN, ERROR, DEBUG) to ensure log consistency.
+
+    .PARAMETER Level
+        Severity level of the log. Defaults to 'INFO'.
     #>
     [CmdletBinding()]
     param (

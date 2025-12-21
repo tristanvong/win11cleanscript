@@ -1,8 +1,17 @@
 function Get-W11WinGetApps {
     <#
-        .SYNOPSIS
-        Use WinGet's list command to get installed WinGet compatible programs
-        and parse the results into a PowerShell object.
+    .SYNOPSIS
+        Retrieves and parses the WinGet application list.
+
+    .DESCRIPTION
+        Since WinGet returns data as a text table, this function:
+        1. Validates 'winget' exists on the system.
+        2. Captures the 'winget list' output as a string.
+        3. Uses Regular Expressions (Regex) to parse the columns (Name, Id, Version, Source).
+        4. Handles UTF8 encoding to ensure special characters in app names don't break the parser.
+
+    .NOTES
+        Requires the App Installer (WinGet) to be installed and available in the System PATH.
     #>
     [CmdletBinding()]
     param ()

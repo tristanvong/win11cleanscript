@@ -2,6 +2,22 @@ function Invoke-Win11Clean {
     <#
     .SYNOPSIS
         The entry point for the Win11Clean automation tool.
+
+    .DESCRIPTION
+        This is the main engine of the tool. It follows a strict workflow:
+        1. Environment Check: Confirms the OS is Windows 11 via 'Test-IsWindows11'.
+        2. Config Loading: Imports 'settings.json' and sets the log path.
+        3. Discovery: Scans for all AppX and WinGet packages.
+        4. Filtering: Cross-references discovered apps against your Blacklist and Whitelist.
+        5. Safety Check: If 'DryRun' is false, it enforces a 10-second countdown before starting removals.
+        6. Execution: Iterates through targeted apps and calls 'Remove-W11App'.
+
+    .PARAMETER ConfigPath
+        The path to the settings.json file. Defaults to '..\..\config\settings.json' relative to the script's location.
+
+    .EXAMPLE
+        Invoke-Win11Clean -Verbose
+        Runs the full detection and removal process with detailed console output.
     #>
     [CmdletBinding()]
     param (

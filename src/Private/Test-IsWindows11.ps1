@@ -1,7 +1,10 @@
 function Test-IsWindows11 {
     <#
     .SYNOPSIS
-        Checks if the current operating system is Windows 11.
+        OS Compatibility Check.
+
+    .DESCRIPTION
+        Queries 'Win32_OperatingSystem' via CIM. It confirms compatibility by checking if the 'BuildNumber' is 22000 or higher (the Windows 11 baseline) and ensuring the 'Caption' contains the string "Windows".
     #>
     [CmdletBinding()]
     param()

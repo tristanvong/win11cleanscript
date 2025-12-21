@@ -1,19 +1,14 @@
 function Import-W11Config {
     <#
-        .SYNOPSIS
-        Imports the settings.json file and returns it as a PowerShell object.
+    .SYNOPSIS
+        Loads and validates the JSON configuration.
 
-        .DESCRIPTION
-        This function reads the json configuration file, converts it to a PowerShell object
-        and stores this at the user specified location or by default in the Windows TEMP folder
-        (C:\Users\user\AppData\Local\Temp).
+    .DESCRIPTION
+        Reads 'settings.json' and converts it into a PowerShell object.
+        (Temporary/TODO: actually make it robust) Special Logic: If 'LogPath' is not set or contains "TODO", it automatically points the logs to the current user's Temp folder ($env:TEMP\Win11Clean.log).
 
-        .PARAMETER Path
-        The absolute or relative path to the settings.json file.
-
-        .EXAMPLE
-        $Config = Import-W11Config -Path ".\config\settings.json"
-        Imports the settings and stores them in the $Config variable.
+    .PARAMETER Path
+        The path to the .json file.
     #>
     [CmdletBinding()]
     param (
