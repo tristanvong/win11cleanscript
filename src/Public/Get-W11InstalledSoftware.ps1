@@ -12,7 +12,7 @@ function Get-W11InstalledSoftware {
     Write-Verbose "Detecting installed WinGet packages..."
     $WinGet = Get-W11WinGetApps
 
-    $Total = $Appx + $WinGet
+    $Total = $Appx + $WinGet | Sort-Object Name
     
     Write-Verbose "Total applications detected: $($Total.Count)"
     return $Total
