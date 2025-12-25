@@ -18,6 +18,9 @@ function Remove-W11App {
 
     .PARAMETER LogPath
         The file path where the results of the operation (Success/Fail) are recorded.
+
+    .PARAMETER NoConfirm
+        If $true, ignores 'IsCritical' status and proceeds with removal without a manual prompt.
     #>
     [CmdletBinding()]
     param (
@@ -28,7 +31,10 @@ function Remove-W11App {
         [bool]$DryRun,
         
         [Parameter(Mandatory = $false)]
-        [string]$LogPath
+        [string]$LogPath,
+
+        [Parameter(Mandatory = $false)]
+        [bool]$NoConfirm = $false
     )
 
     Write-Log -Message "Processing removal for: $($App.Name)" -Path $LogPath
@@ -40,7 +46,10 @@ function Remove-W11App {
         
         if ($DryRun) {
             Write-Host "DryRun: Would prompt user for confirmation here." -ForegroundColor Yellow
-            Write-Log -Message "DRYRUN: $($App.Name) is critical." -Path $LogPath -Level "WARN"
+        } elseif ($NoConfirm) {
+            # Bypass the manual "Y" (yes) check
+            Write-Host " [NO-CONFIRM ACTIVE: AUTO-APPROVING]" -ForegroundColor Cyan
+            Write-Log -Message "NO-CONFIRMATION: $($App.Name) removed due to -NoConfirm switch." -Path $LogPath
         } else {
             $Confirmation = Read-Host "WARNING: This app is marked as Critical. Type 'Y' to confirm deletion"
             if ($Confirmation -ne 'Y') {

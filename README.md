@@ -15,6 +15,7 @@ The tool follows a strict automated workflow managed by the [Invoke-Win11Clean](
 * Filtering: Cross-references discovered apps against user-defined Blacklist, Whitelist, and Safeguard rules.
 * Execution Policy:
     * If DryRun is false, it waits for 10 seconds so the user has time to stop the script.
+    * No-Confirm Mode: If the `-NoConfirm` switch is used, Safeguard prompts ("are you sure you want to uninstall application X?") for critical apps are bypassed.
     * Iterates through targeted apps, applying provider-specific (AppX or WinGet) removal commands.
 
 ## Execute the script:
@@ -23,7 +24,13 @@ The tool follows a strict automated workflow managed by the [Invoke-Win11Clean](
 3. Execute the wrapper script from the project root: 
 
 ```ps
+# Standard execution (with prompts for critical apps)
 ./Run-Script.ps1
+```
+
+```ps
+# Force execution (bypasses security prompts)
+./Run-Script.ps1 -NoConfirm
 ```
 
 # Configuration guide

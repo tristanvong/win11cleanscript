@@ -15,13 +15,21 @@ function Invoke-Win11Clean {
     .PARAMETER ConfigPath
         The path to the settings.json file. Defaults to '..\..\config\settings.json' relative to the script's location.
 
+    .PARAMETER NoConfirm
+        If present, bypasses manual 'Y' confirmation prompts for apps marked as Critical.
+
     .EXAMPLE
         Invoke-Win11Clean -Verbose
         Runs the full detection and removal process with detailed console output.
+
+    .EXAMPLE
+        Invoke-Win11Clean -NoConfirm
+        Runs the process and automatically removes critical apps without prompting for confirmation.
     #>
     [CmdletBinding()]
     param (
-        [string]$ConfigPath
+        [string]$ConfigPath,
+        [switch]$NoConfirm
     )
 
     if (-not (Test-IsWindows11)) {
@@ -39,6 +47,7 @@ function Invoke-Win11Clean {
     
     try {
         $Config = Import-W11Config -Path $ConfigPath
+        $Config.Settings | Add-Member -NotePropertyName "NoConfirm" -NotePropertyValue $NoConfirm.IsPresent -Force
         $LogPath = $Config.Settings.LogPath
 
         Write-Log -Message "--- Win11Clean Started ---" -Path $LogPath
@@ -80,7 +89,7 @@ function Invoke-Win11Clean {
             }
 
             foreach ($App in $TargetedApps) {
-                Remove-W11App -App $App -DryRun $Config.Settings.DryRun -LogPath $LogPath
+                Remove-W11App -App $App -DryRun $Config.Settings.DryRun -LogPath $LogPath -NoConfirm $Config.Settings.NoConfirm
             }
         }
     }
