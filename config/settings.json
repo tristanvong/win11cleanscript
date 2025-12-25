@@ -2,8 +2,7 @@
     "Settings": {
         "LogPath": "",
         "DryRun": true,
-        "Verbose": true,
-        "Strict": false
+        "Verbose": true
     },
     "Whitelists": {
         "KeepApps": [
