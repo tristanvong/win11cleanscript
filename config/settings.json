@@ -1,6 +1,6 @@
 {
     "Settings": {
-        "LogPath": "TODO: find a way to put it in window's temp folder",
+        "LogPath": "",
         "DryRun": true,
         "Verbose": true,
         "Strict": false

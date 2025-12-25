@@ -5,7 +5,7 @@ function Import-W11Config {
 
     .DESCRIPTION
         Reads 'settings.json' and converts it into a PowerShell object.
-        (Temporary/TODO: actually make it robust) Special Logic: If 'LogPath' is not set or contains "TODO", it automatically points the logs to the current user's Temp folder ($env:TEMP\Win11Clean.log).
+        Special Logic: If 'LogPath' is not set, it automatically points the logs to the current user's Temp folder ($env:TEMP\Win11Clean.log) in practice this writes to: "C:\Users\user\AppData\Local\Temp\Win11Clean.log".
 
     .PARAMETER Path
         The path to the .json file.
@@ -24,7 +24,7 @@ function Import-W11Config {
         $Content = Get-Content -Path $Path
         $Config = $Content | ConvertFrom-Json
 
-        if ($Config.Settings.LogPath -match "TODO" -or [string]::IsNullOrWhiteSpace($Config.Settings.LogPath)) {
+        if ([string]::IsNullOrWhiteSpace($Config.Settings.LogPath)) {
             $Config.Settings.LogPath = Join-Path -Path $env:TEMP -ChildPath "Win11Clean.log"
         }
 
