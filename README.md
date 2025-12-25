@@ -38,7 +38,7 @@ The [config/settings.json](./config/settings.json) file is the central control f
 
 ## Settings
 > [!NOTE]  
-> DryRun defaults to FALSE (safe mode). Set it to TRUE in [config/settings.json](./config/settings.json) to enable actual application removal.
+> DryRun defaults to TRUE (safe mode). Set it to FALSE in [config/settings.json](./config/settings.json) to enable actual application removal.
 
 * LogPath: Destination for the log file (leave empty if default temporary storage path is desired).
 * DryRun: Set to true to test settings without deleting anything.
