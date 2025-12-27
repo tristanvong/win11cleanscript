@@ -17,6 +17,7 @@ The tool follows a strict automated workflow managed by the [Invoke-Win11Clean](
     * If DryRun is false, it waits for 10 seconds so the user has time to stop the script.
     * No-Confirm Mode: If the `-NoConfirm` switch is used, Safeguard prompts ("are you sure you want to uninstall application X?") for critical apps are bypassed.
     * Iterates through targeted apps, applying provider-specific (AppX or WinGet) removal commands.
+* History Logging: After a successful cleanup, removed WinGet applications are recorded as a new "Generation" in a JSON-based undo log. The location of this file can be specified but defaults to the user's %TEMP% folder.
 
 ## Execute the script:
 1. Customize your preferences in [settings.json](./config/settings.json).
@@ -31,6 +32,11 @@ The tool follows a strict automated workflow managed by the [Invoke-Win11Clean](
 ```ps
 # Force execution (bypasses security prompts)
 ./Run-Script.ps1 -NoConfirm
+```
+
+```ps
+# Undo functionality (restores previously uninstalled WinGet apps)
+./Run-Script.ps1 -Undo
 ```
 
 # Configuration guide
