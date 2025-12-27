@@ -2,6 +2,18 @@ function Invoke-W11Undo {
     <#
     .SYNOPSIS
         Restores uninstalled WinGet applications.
+    
+    .DESCRIPTION
+        Reads the Undo JSON file and displays a list of removal "Generations" sorted by date.
+        The user is prompted to choose a point to restore back to. Reinstallation is performed
+        sequentially using WinGet for all generations newer than the target point.
+
+    .PARAMETER UndoPath
+        The path to the JSON file containing the removal history.
+
+    .EXAMPLE
+        Invoke-W11Undo -UndoPath "$env:TEMP\Win11CleanUndo.json"
+        Prompts the user to select a restoration point and reinstalls relevant applications via WinGet.
     #>
     [CmdletBinding()]
     param (

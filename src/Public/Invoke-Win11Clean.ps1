@@ -22,6 +22,10 @@ function Invoke-Win11Clean {
         Invoke-Win11Clean -Verbose
         Runs the full detection and removal process with detailed console output.
 
+    .PARAMETER UndoPath
+        The file path where the removal history for the current session will be saved.
+        This path is passed to 'Write-W11Undo' to use the Undo functionality.
+
     .EXAMPLE
         Invoke-Win11Clean -NoConfirm
         Runs the process and automatically removes critical apps without prompting for confirmation.

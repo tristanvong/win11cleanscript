@@ -11,6 +11,9 @@
 .PARAMETER NoConfirm
     If present, bypasses manual 'Y' confirmation prompts for applications marked as 'Critical' in the configuration.
 
+.PARAMETER Undo
+    If present, triggers 'Invoke-W11Undo' to restore previously removed applications instead of running a new cleanup.
+
 .EXAMPLE
     .\Run-Script.ps1
     Runs the full cleanup process using settings defined in config\settings.json.
@@ -18,6 +21,10 @@
 .EXAMPLE
     .\Run-Script.ps1 -NoConfirm
     Runs the cleanup process and automatically approves the removal of critical applications without user intervention.
+
+.EXAMPLE
+    .\Run-Script.ps1 -Undo
+    Displays the removal history and allows the user to restore applications to a previous state.
 
 .NOTES
     This script must be run from the root of the project folder so it can correctly resolve the relative paths to the 'src' and 'config' directories.
